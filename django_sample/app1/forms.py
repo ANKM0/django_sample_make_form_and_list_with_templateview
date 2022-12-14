@@ -34,3 +34,11 @@ class TestDataForm(forms.Form):
         min_value=0,
         required=False,
     )
+
+
+class QuantityForm(forms.Form):
+    quantity = forms.IntegerField(
+        label="price",
+        min_value=0,
+        required=False,
+    )
