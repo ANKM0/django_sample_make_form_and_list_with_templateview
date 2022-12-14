@@ -29,3 +29,8 @@ class TestDataForm(forms.Form):
         required=True,
         error_messages={'required': 'priceが入力されていません'},
     )
+    quantity = forms.IntegerField(
+        label="price",
+        min_value=0,
+        required=False,
+    )
