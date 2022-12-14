@@ -5,5 +5,5 @@ from .models import TestData
 @admin.register(TestData)
 class ProductDataAdmin(admin.ModelAdmin):
     model = TestData
-    list_display = ["number", "name", "price"]
+    list_display = ["number", "name", "price", "quantity"]
     ordering = ["number"]
