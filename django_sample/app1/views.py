@@ -19,15 +19,14 @@ class IndexView(TemplateView):
         max_num=max_num    # initial含めformは最大4となる
     )
 
-    def get(self, request, *args, **kwargs) -> HttpResponse:
-        # 新規作成formを作る場合
+    def get_context_data(self, **kwargs):
+        # get処理だけ書く
+        ctx = super().get_context_data(**kwargs)
+        # 新規作成formを作る場合は
         # formset = self.test_data_formset(queryset=TestData.objects.none())
-        formset = self.test_data_formset()
-        context = {
-            "object_list": self.object_list,
-            "formset": formset,
-        }
-        return render(request, self.template_name, context)
+        ctx["formset"] = self.test_data_formset()
+        ctx["object_list"] = self.object_list
+        return ctx
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
         formset = self.test_data_formset(request.POST)
