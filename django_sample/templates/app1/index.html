@@ -1,4 +1,5 @@
-{% extends "app1/base.html" %}
+{% extends 'app1/base.html' %}
+{% load boost %}
 {% block title %}index{% endblock %}
 
 {% block content %}
@@ -10,6 +11,7 @@
 
     <form class="form" action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ formset.management_form }}
 
         <div class="bg-light">
             <table class="table table-bordered ">
@@ -22,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in object_list %}
+                    {% for item, form in object_list|zip:formset %}
                         <tr class="bg-light">
                             <td>
                                 {{ item.number }}
@@ -34,24 +36,27 @@
                                 {{ item.price }}
                             </td>
                             <td>
+                                {{ form.non_field_errors }}
                                 <div class="form-group">
-                                    <input class="form-control" type="number" name="quantity_{{forloop.counter}}"
-                                    {% if item.quantity == 0 %}
-                                        value=""
-                                    {% else %}
-                                        value="{{item.quantity}}"
-                                    {% endif %}
-                                    min="0">
+                                    <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label_tag }}</label>
+                                {{ form.quantity }}
+                                {{ form.quantity.errors }}
+
+                                {% for field in form.hidden_fields %}
+                                    {{ field }}
+                                {% endfor %}
                                 </div>
                             </td>
                         </tr>
-
+                    {% endfor %}
+                    {% for field in form.hidden_fields %}
+                        {{ field }}
                     {% endfor %}
                 </tbody>
             </table>
         </div>
         <div class="text-right">
-            <button type="submit" value="送信">送信</button>
+            <button type="submit" class="btn btn-primary">送信</button>
         </div>
 
     </form>
